@@ -1,0 +1,14 @@
+{% extends 'music/base.html' %}
+{% block title %}Song Details{% endblock %}
+
+{% block body %}
+    <img src="{{ song.song_logo.url }}" height="200" width="200">
+
+    <h1>{{ song.artist_name }} - {{ song.song_title }}</h1>
+
+    <audio style="margin-top:10px;margin-bottom:10px" controls controlsList="nodownload" autoplay>
+        <source src="../../media/{{ song.song_file }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+
+{% endblock %}

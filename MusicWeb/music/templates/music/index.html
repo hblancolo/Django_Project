@@ -1,0 +1,21 @@
+{% extends 'music/base.html' %}
+
+{% block body %}
+    <center>
+    {% if all_songs %}
+        <h3 style="margin-top:5px;margin-bottom:10px">Hear the latest songs</h3>
+        <h4 style="margin-top:5px;margin-bottom:25px">('Artist' - 'Song Title')</h4>
+        <ul class="list-unstyled">
+            {% for song in all_songs %}
+            <li><a href="{% url 'music:detail' song.id %}">{{song.artist_name}} - {{ song.song_title }}</a></li>
+            <audio style="margin-top:10px;margin-bottom:25px" controls controlsList="nodownload">
+                <source src="../../media/{{ song.song_file }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+            </audio>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <h3>There are no songs uploaded</h3>
+        {% endif %}
+    </center>
+{% endblock %}
