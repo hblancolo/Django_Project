@@ -29,4 +29,4 @@ class Tests_account(unittest.TestCase):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
-        
+        self.assertEquals((username, password), user)
