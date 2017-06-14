@@ -9,10 +9,12 @@ from views import *
 
 class Tests_account(unittest.TestCase):
 
-    def test_User_register(self):
-        email = forms.EmailField(label='Email Address')
-        email2 = forms.EmailField(label='Confirm Email')
-        self.assertEquals(email,email2)
+    def test_UserRegisterForm(self):
+        email = clean('AGH@edu.pl')
+        email2 = clean('AGH@edu.pl')
+        email3 = clean('Agh@edu.pl')
+        self.assertEqual(email,email2)
+        self.assertRaises((email, email3), 'Emails must match')
 
     def setUp(self):
         self.username = User.objects.create_user()
@@ -21,7 +23,7 @@ class Tests_account(unittest.TestCase):
         User.objects.create(first_name='foo', last_name='bar')
 
     def test_no_user(self):
-        response = self.client.get(reverse('This user does not exist'))
+        response = self.forms.get(reverse('This user does not exist'))
         self.assertTemplateNotUsed(response)
         self.failUnlessEqual(response.status_code, 302)
 
@@ -29,4 +31,12 @@ class Tests_account(unittest.TestCase):
         username = form.cleaned_data.get('username')
         password = form.cleaned_data.get('password')
         user = authenticate(username=username, password=password)
-        self.assertEquals((username, password), user)
+        self.assertEqual((username, password), user)
+
+    def tests_passwords(self):
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password')
+        user1 = authenticate(username=username, password=password)
+        user2 = authenticate(username=username, password=password)
+        self.assertEqual(user1('password'), user2('password'))
+       
